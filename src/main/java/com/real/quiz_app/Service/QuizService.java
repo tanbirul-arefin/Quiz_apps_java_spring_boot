@@ -38,4 +38,14 @@ public class QuizService {
         }
         return new QuestionForm(selectquestion);
     }
+
+    public int getResult(QuestionForm questionForm) {
+        int totalCorrect = 0;
+        for (Question question : questionForm.getQuestions()) {
+            if(question.getAns()== question.getChose()){
+                totalCorrect++;
+            }
+        }
+        return totalCorrect;
+    }
 }
