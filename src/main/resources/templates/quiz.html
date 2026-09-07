@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quiz App</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+<div class="container">
+    <div class="header">
+        <h1>📝 Quiz App</h1>
+        <p class="subtitle">Test your Java knowledge!</p>
+    </div>
+
+    <form th:action="@{/result}" th:object="${questionForm}" method="post" class="quiz-form">
+        <div class="progress-bar">
+            <span th:text="${#arrays.size(questionForm.questions)} + ' Questions'" class="progress-text"></span>
+        </div>
+
+        <div class="questions-container">
+            <div class="question-card" th:each="question, stat : ${questionForm.questions}">
+                <input type="hidden" th:field="*{questions[__${stat.index}__].questionId}" />
+                <input type="hidden" th:field="*{questions[__${stat.index}__].ans}" />
+                <input type="hidden" th:field="*{questions[__${stat.index}__].title}" />
+                <input type="hidden" th:field="*{questions[__${stat.index}__].optionA}" />
+                <input type="hidden" th:field="*{questions[__${stat.index}__].optionB}" />
+                <input type="hidden" th:field="*{questions[__${stat.index}__].optionC}" />
+
+                <div class="question-number">Q<span th:text="${stat.index + 1}"></span></div>
+                <div class="question-text">
+                    <span th:text="${question.title}"></span>
+                </div>
+
+                <div class="options">
+                    <label class="option-label">
+                        <input type="radio" th:field="*{questions[__${stat.index}__].chose}" th:value="1" class="option-radio">
+                        <span class="option-text option-A" th:text="${question.optionA}"></span>
+                    </label>
+
+                    <label class="option-label">
+                        <input type="radio" th:field="*{questions[__${stat.index}__].chose}" th:value="2" class="option-radio">
+                        <span class="option-text option-B" th:text="${question.optionB}"></span>
+                    </label>
+
+                    <label class="option-label">
+                        <input type="radio" th:field="*{questions[__${stat.index}__].chose}" th:value="3" class="option-radio">
+                        <span class="option-text option-C" th:text="${question.optionC}"></span>
+                    </label>
+                </div>
+            </div>
+        </div>
+
+        <div class="submit-container">
+            <button type="submit" class="submit-btn">Submit Quiz 🚀</button>
+        </div>
+    </form>
+</div>
+</body>
+</html>

@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quiz Result</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+<div class="container">
+    <div class="result-card">
+        <div class="result-icon">🏆</div>
+        <h1>Quiz Result</h1>
+
+        <div class="score-circle" th:classappend="${#arrays.length(totalCorrect) > 0}">
+            <div class="score-value" th:text="${totalCorrect} + '/' + ${totalQuestions}"></div>
+            <div class="score-label">Correct</div>
+        </div>
+
+        <div class="result-details">
+            <div class="detail-item" th:each="question, stat : ${questionForm.questions}">
+                <div class="detail-question">
+                    <span class="detail-qnum">Q<span th:text="${stat.index + 1}"></span>:</span>
+                    <span th:text="${question.title}"></span>
+                </div>
+                <div class="detail-answer" th:classappend="${question.ans == question.chose} ? 'correct' : 'wrong'">
+                    <span th:if="${question.ans == question.chose}">✅ Correct!</span>
+                    <span th:unless="${question.ans == question.chose}">❌ Wrong! Correct answer was option <span th:text="${question.ans}"></span></span>
+                </div>
+            </div>
+        </div>
+
+        <div class="result-buttons">
+            <a href="/" class="retry-btn">🔄 Try Again</a>
+        </div>
+    </div>
+</div>
+</body>
+</html>

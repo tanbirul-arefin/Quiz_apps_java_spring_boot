@@ -4,7 +4,6 @@ import com.real.quiz_app.model.Question;
 import com.real.quiz_app.model.QuestionForm;
 import jakarta.annotation.PostConstruct;
 import lombok.RequiredArgsConstructor;
-import lombok.Setter;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -15,26 +14,22 @@ import java.util.Random;
 @Service
 public class QuizService {
 
-       private List<Question> allQuestions;
+    private List<Question> allQuestions;
     private final QuestionInitilizer questionInitilizer;
-
 
     @PostConstruct
     public void init() {
-       //allQuestions = QuestionInitilizer.getQuestions();
-    //allQuestions = QuestionInitilizer.getQuestions;
-        allQuestions =questionInitilizer.getQuestions();
+        allQuestions = questionInitilizer.getQuestions();
     }
 
     public QuestionForm getQuestionForm() {
-
-        List<Question> allQuestionscopy = new ArrayList<>();
+        List<Question> shuffled = new ArrayList<>(allQuestions);
         List<Question> selectquestion = new ArrayList<>();
         Random random = new Random();
         for (int i = 0; i < 5; i++) {
-            int randomNumber = random.nextInt(allQuestions.size());
-            selectquestion.add(allQuestionscopy.get(randomNumber));
-            allQuestionscopy.remove(randomNumber);
+            int randomNumber = random.nextInt(shuffled.size());
+            selectquestion.add(shuffled.get(randomNumber));
+            shuffled.remove(randomNumber);
         }
         return new QuestionForm(selectquestion);
     }
@@ -42,7 +37,7 @@ public class QuizService {
     public int getResult(QuestionForm questionForm) {
         int totalCorrect = 0;
         for (Question question : questionForm.getQuestions()) {
-            if(question.getAns()== question.getChose()){
+            if (question.getAns() == question.getChose()) {
                 totalCorrect++;
             }
         }
