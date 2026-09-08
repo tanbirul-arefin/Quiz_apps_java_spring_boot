@@ -23,13 +23,13 @@ public class QuizService {
     }
 
     public QuestionForm getQuestionForm() {
-        List<Question> shuffled = new ArrayList<>(allQuestions);
+        List<Question> allQuestionCopy = new ArrayList<>(allQuestions);
         List<Question> selectquestion = new ArrayList<>();
         Random random = new Random();
         for (int i = 0; i < 5; i++) {
-            int randomNumber = random.nextInt(shuffled.size());
-            selectquestion.add(shuffled.get(randomNumber));
-            shuffled.remove(randomNumber);
+            int randomNumber = random.nextInt(allQuestionCopy.size());
+            selectquestion.add(allQuestionCopy.get(randomNumber));
+            allQuestionCopy.remove(randomNumber);
         }
         return new QuestionForm(selectquestion);
     }

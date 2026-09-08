@@ -16,6 +16,7 @@ public class QuestionInitilizer {
 
     @PostConstruct
     public void init() {
+
         questions = new ArrayList<>();
 
         questions.add(new Question(1,

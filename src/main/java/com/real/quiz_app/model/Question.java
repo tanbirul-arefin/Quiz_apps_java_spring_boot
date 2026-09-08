@@ -16,5 +16,5 @@ public class Question {
     private String optionB;
     private String optionC;
     private int ans;
-    private int chose = -1;
+    private int chose;
 }
