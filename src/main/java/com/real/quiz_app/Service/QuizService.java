@@ -55,6 +55,7 @@ public class QuizService {
         return totalCorrect;
     }
 
+    //solved the plm here
     public Result evaluateAndSaveResult(String username, QuestionForm questionForm) {
         Result result = new Result(username, getResult(questionForm));
         saveResult(result);
