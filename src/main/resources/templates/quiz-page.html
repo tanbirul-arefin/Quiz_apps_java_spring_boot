@@ -16,26 +16,26 @@
 <div class="container main-container">
     <h3>Only Select The Correct Answers</h3>
 
-    <form th:action="@{submit}" th:object="${questionForm}" method="post">
+    <form th:action="@{/submit}" th:object="${questionForm}" method="post">
         <div class="question-box" th:each="question, it: *{questions}">
             <p class="title" th:text="${question.title}"></p>
 
             <div class="option">
-                <input type="radio" id="optionA" th:field="*{questions[__${it.index}__].selectedAns}" th:value="1"/>
-                <label for="optionA" th:text="${question.optionA}"></label>
+                <input type="radio" th:id="|optionA-${it.index}|" th:field="*{questions[__${it.index}__].chose}" th:value="1"/>
+                <label th:for="|optionA-${it.index}|" th:text="${question.optionA}"></label>
             </div>
 
             <div class="option">
-                <input type="radio" id="optionB" th:field="*{questions[__${it.index}__].selectedAns}" th:value="2"/>
-                <label for="optionB" th:text="${question.optionB}"></label>
+                <input type="radio" th:id="|optionB-${it.index}|" th:field="*{questions[__${it.index}__].chose}" th:value="2"/>
+                <label th:for="|optionB-${it.index}|" th:text="${question.optionB}"></label>
             </div>
 
             <div class="option">
-                <input type="radio" id="optionC" th:field="*{questions[__${it.index}__].selectedAns}" th:value="3"/>
-                <label for="optionC" th:text="${question.optionC}"></label>
+                <input type="radio" th:id="|optionC-${it.index}|" th:field="*{questions[__${it.index}__].chose}" th:value="3"/>
+                <label th:for="|optionC-${it.index}|" th:text="${question.optionC}"></label>
             </div>
 
-            <input type="hidden" th:field="*{questions[__${it.index}__].correctAns}" th:value="${question.correctAns}"/>
+            <input type="hidden" th:field="*{questions[__${it.index}__].questionId}"/>
         </div>
 
         <input type="hidden" th:name="username" th:value="${username}">

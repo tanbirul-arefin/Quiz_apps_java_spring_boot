@@ -33,7 +33,7 @@
 
             <div class="info">
                 <p>Total false answer:</p>
-                <p th:if="${result}" th:text="5 - ${result.totalCorrect}"></p>
+                <p th:if="${result}" th:text="${5 - result.totalCorrect}"></p>
             </div>
         </div>
 

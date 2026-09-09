@@ -4,14 +4,12 @@ import com.real.quiz_app.model.Question;
 import com.real.quiz_app.model.QuestionForm;
 import com.real.quiz_app.model.Result;
 import jakarta.annotation.PostConstruct;
-import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
-@RequiredArgsConstructor
 @Service
 public class QuizService {
 
@@ -20,17 +18,22 @@ public class QuizService {
 
     private final QuestionInitilizer questionInitilizer;
 
+    public QuizService(QuestionInitilizer questionInitilizer) {
+        this.questionInitilizer = questionInitilizer;
+    }
+
     @PostConstruct
     public void init() {
         allQuestions = questionInitilizer.getQuestions();
         Results = new ArrayList<>();
     }
 
-    public QuestionForm getQuestionForm() {
+    public QuestionForm getQuestions() {
         List<Question> allQuestionCopy = new ArrayList<>(allQuestions);
         List<Question> selectquestion = new ArrayList<>();
         Random random = new Random();
-        for (int i = 0; i < 5; i++) {
+        int questionCount = Math.min(5, allQuestionCopy.size());
+        for (int i = 0; i < questionCount; i++) {
             int randomNumber = random.nextInt(allQuestionCopy.size());
             selectquestion.add(allQuestionCopy.get(randomNumber));
             allQuestionCopy.remove(randomNumber);
@@ -41,11 +44,21 @@ public class QuizService {
     public int getResult(QuestionForm questionForm) {
         int totalCorrect = 0;
         for (Question question : questionForm.getQuestions()) {
-            if (question.getAns() == question.getChose()) {
+            Question originalQuestion = allQuestions.stream()
+                    .filter(candidate -> candidate.getQuestionId() == question.getQuestionId())
+                    .findFirst()
+                    .orElse(null);
+            if (originalQuestion != null && originalQuestion.getAns() == question.getChose()) {
                 totalCorrect++;
             }
         }
         return totalCorrect;
+    }
+
+    public Result evaluateAndSaveResult(String username, QuestionForm questionForm) {
+        Result result = new Result(username, getResult(questionForm));
+        saveResult(result);
+        return result;
     }
 
     public void saveResult (Result result) {
